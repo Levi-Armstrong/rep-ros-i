@@ -288,6 +288,13 @@ example in the case of pure acknowledgements that carry no data.
 In cases where fixed-size messages are required, an array of ``shared_int``
 dummy values may be used. All elements must be initialised to zero (``0``).
 
+Layout:
+
+Body layout is message specific. See the definitions in the
+`Message Definitions`_ section for more information.
+
+Notes: none
+
 
 Message Definitions
 ===================
