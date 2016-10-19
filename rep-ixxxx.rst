@@ -238,7 +238,10 @@ Notes
 Header
 ------
 
-The *message header* etc.
+The next three fields make up the *message header*, which is that part of the
+message that encodes the message type (or it's intent), whether the message
+is a topic-like broadcast, a service request or reply and, if it is a reply,
+what the result of the service request was.
 
 Layout::
 
