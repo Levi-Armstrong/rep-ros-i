@@ -215,11 +215,10 @@ a valid Simple Message message.
 Prefix
 ------
 
-All messages must start with the *prefix*, which must contain only a single
-field: ``length``. Message structure length is defined as the sum in bytes
-of the sizes of the individual fields in the *header* and the *body*,
-excluding the ``length`` field itself (ie: only actual message bytes are
-considered).
+All messages must start with the *prefix*, which may only contain a single
+field: ``length``. Message length is defined as the sum in bytes of the sizes
+of the individual fields in the *header* and the *body*, excluding the
+``length`` field itself (ie: only actual message bytes are considered).
 
 Layout::
 
@@ -227,13 +226,13 @@ Layout::
 
 Notes
 
-#. Client and server implementations shall prefix all outgoing messages with
-   the value of ``length``.
 #. Refer to section `Shared Types`_ for information on the size of supported
    field types.
 #. The size of fields that are arrays or lists shall be defined as the size
    of their base type (ie: ``shared_int``) multiplied by the number of
-   elements in the list, or the declared size of the array.
+   elements in the list, or the declared size of the array. Example: an array
+   of ``shared_int`` with ten (``10``) elements in it has a total size of
+   fourty (``40``) bytes.
 
 
 Header
