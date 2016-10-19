@@ -350,7 +350,7 @@ Message type: *synchronous service*
 
 Assigned message identifier: 2
 
-Status: *active, in use*
+Status: *active, but not in use*
 
 Supported by generic nodes: *no*
 
@@ -595,7 +595,7 @@ Assigned message identifier: 14
 
 Status: *active, in use*
 
-Supported by generic nodes: *no* (motoman_driver only)
+Supported by generic nodes: *no* (``motoman_driver`` only)
 
 Request::
 
@@ -664,7 +664,7 @@ Assigned message identifier: 15
 
 Status: *active, in use*
 
-Supported by generic nodes: *no* (motoman_driver only)
+Supported by generic nodes: *no* (``motoman_driver`` only)
 
 Message::
 
