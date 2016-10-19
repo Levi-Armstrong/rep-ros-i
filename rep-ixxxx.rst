@@ -123,7 +123,7 @@ Assumptions
 ===========
 
 #. The key words *must*, *must not*, *required*, *shall*, *shall not*,
-   *should*, *should not*, *recommended*,  *may*, and *optional* in this
+   *should*, *should not*, *recommended*, *may*, and *optional* in this
    document are to be interpreted as described in RFC-2119 [#RFC2119]_.
 #. Where applicable, fields with units will adhere to ROS REP-103 [#REP103]_.
 #. Message type identifiers, when given, will always use decimal (base-ten)
