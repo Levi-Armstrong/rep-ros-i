@@ -37,7 +37,7 @@ Outline
    #. `Bytestream Layout`_
    #. `Shared Types`_
 
-#. `Packet Layout`_
+#. `Message Layout`_
 
    #. Prefix_
    #. Header_
@@ -205,17 +205,17 @@ these types
 TODO: explain that ``shared_real`` can be either a ``float`` or a ``double``
 
 
-Packet Layout
-=============
+Message Layout
+==============
 
 The following sections describe the different sub structures that make up
-a valid Simple Message packet.
+a valid Simple Message message.
 
 
 Prefix
 ------
 
-All packets must start with the *prefix*, which must contain only a single
+All messages must start with the *prefix*, which must contain only a single
 field: ``length``. Message structure length is defined as the sum in bytes
 of the sizes of the individual fields in the *header* and the *body*,
 excluding the ``length`` field itself (ie: only actual message bytes are
@@ -239,7 +239,7 @@ Notes
 Header
 ------
 
-The *packet header* etc.
+The *message header* etc.
 
 Layout::
 
@@ -277,7 +277,7 @@ Notes
 Body
 ----
 
-The *body* is that part of the packet which consists of all fields that are
+The *body* is that part of the message which consists of all fields that are
 not part of either the prefix or the message header. Most message structures
 described in the `Message Definitions`_ section have a body part, but this is
 not required. Messages may consist of only a prefix and a header, for
