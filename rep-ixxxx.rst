@@ -575,7 +575,8 @@ JOINT_TRAJ_PT_FULL
 ------------------
 
 Meant to be an almost 1-to-1 copy of the ROS ``JointTrajectoryPoint`` message
-type. But without the ``names`` field (we rely on indices).
+type. But without the ``names`` field (we rely on indices, which the IRC should
+know how to map to names, and vice-versa).
 
 TODO: extend.
 
