@@ -253,7 +253,7 @@ Notes
 GET_VERSION
 -----------
 
-Allows clients to determine the specific version of a server implementation running on the remote system. This version number may be specific to the server, and can not be used to compare different server implementations.
+Allows clients to determine the specific version of a server implementation running on the remote system. This version number may be specific to the server, and thus cannot be used to compare different server implementations.
 
 Message type: *synchronous service*
 
@@ -285,21 +285,19 @@ Notes
 JOINT_POSITION
 --------------
 
-Description.
+This message was part of the first set of messages supported by the generic clients that servers could use to report joint states. There is no support for joint velocity, acceleration or effort, nor a group identifier or index. The message size is fixed and the maximum number of joints supported is ten (``10``).
 
-Only used for relaying server state, NOT for enqueueing trajectory points.
+Early server implementations also accepted this message for enqueuing trajectory points. This usage has been deprecated (and support removed from ``industrial_robot_client``) and it is an error for clients to try to use ``JOINT_POSITION`` for this purpose. Driver authors may use `JOINT_TRAJ_PT`_ and `JOINT_TRAJ_PT_FULL`_ messages instead.
 
-One of the two message used for broadcasting joint states.
-
-See `Example: JOINT_POSITION`_ for bytestream example.
+For an example bytestream, see `Example: JOINT_POSITION`_.
 
 Message type: *asynchronous publication*
 
 Assigned message identifier: 10
 
-Status: *active, in use*
+Status: *deprecated*
 
-Supported by generic nodes: *yes*
+Supported by generic nodes: *yes* (joint state reporting), *no* (enqueuing)
 
 Message::
 
@@ -310,14 +308,12 @@ Message::
 
 Notes
 
-#. Use of this message structure for enqueuing trajectory points is deprecated and **not** supported by the generic nodes in the ``industrial_robot_client`` package. Drivers should use the `JOINT_TRAJ_PT`_ or `JOINT_TRAJ_PT_FULL`_ messages instead.
 #. The ``sequence`` field uses zero-based numbering.
 #. The ``sequence`` field is not used when reporting joint state and shall be set to zero (``0``) by server implementations.
 #. Elements of ``joint_data`` that are not used must be initialised to zero (``0``) by the sender.
 #. The size of the ``joint_data`` array is ``10``, even if the server implementation does not need that many elements (for instance because it only has six joints).
-#. Controllers that support or are configured with more than a single motion group should use the `JOINT_FEEDBACK`_ message if they wish to report joint state for all configured motion groups.
-#. The elements of the ``joint_data`` field shall represent the joint space positions of the corresponding joint axes of the controller. Units are *radians* for rotational or revolute axes, and *meters* for translational or prismatic axes (see also [#REP103]_).
-#. TODO: what should authors / drivers do when there are more than 10 joints in a single motion group?
+#. Controllers that support or are configured with more than a single motion group should use the `JOINT_FEEDBACK`_ message if they wish to report joint state for all configured motion groups (TODO: but that message is currently not supported by the IRC).
+#. The elements of the ``joint_data`` field shall represent the joint space positions of the corresponding joint axes of the controller. In accordance with [#REP103]_, units are *radians* for revolute or rotational axes, and *meters* for prismatic or translational axes.
 
 
 JOINT_TRAJ_PT
@@ -356,7 +352,7 @@ Notes
 #. TODO: the IRC is not setup to support this currently. Also: does this only hold for drivers that use a trajectory buffering approach? What about direct streaming?
 #. Refer to `Special Sequence Numbers`_ for valid values for the ``sequence`` field.
 #. Driver authors must abort any motion executing on the controller on receipt of a message with ``sequence`` set to ``STOP_TRAJECTORY``. Note that such messages must also be acknowledged with a reply message.
-#. Servers must abort any motion executing on the controller on receipt of an out-of-order trajectory point (ie: ``(seq(msg_n) - seq(msg_n-1)) != 1``).
+#. Servers must abort any motion executing on the controller on receipt of an out-of-order trajectory point (ie: ``(seq(msg_n) - seq(msg_n-1)) != 1``), except when clients wish to start a new trajectory (ie: ``seq(msg) == 1``).
 #. Elements of ``joint_data`` that are not used must be initialised to zero (``0``) by the sender.
 #. The size of the ``joint_data`` array is ``10``, even if the server implementation does not need that many elements (for instance because it only has six joints).
 #. Controllers that support or are configured with more than a single motion group should use the `JOINT_TRAJ_PT_FULL`_ message if they wish to relay trajectories for all configured motion groups.
@@ -521,6 +517,7 @@ Notes
 #. Drivers shall set all elements of invalid fields (as encoded by ``valid_fields``) to zero (``0``).
 #. Elements of ``positions``, ``velocities`` and ``accelerations`` that are not used must be initialised to zero (``0``) by the sender.
 #. The size of the ``positions``, ``velocities`` and ``accelerations`` arrays is ``10``, even if the server implementation does not need that many elements (for instance because it only has six joints).
+#. TODO: what should authors / drivers do when there are more than 10 joints in a single motion group?
 
 
 Defined Constants
