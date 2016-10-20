@@ -289,6 +289,8 @@ This message was part of the first set of messages supported by the generic clie
 
 Early server implementations also accepted this message for enqueuing trajectory points. This usage has been deprecated (and support removed from ``industrial_robot_client``) and it is an error for clients to try to use ``JOINT_POSITION`` for this purpose. Driver authors may use `JOINT_TRAJ_PT`_ and `JOINT_TRAJ_PT_FULL`_ messages instead.
 
+Note that this message is currently deprecated, and new server implementations are recommended to use `JOINT_FEEDBACK`_ (TODO: but the IRC doesn't support it).
+
 For an example bytestream, see `Example: JOINT_POSITION`_.
 
 Message type: *asynchronous publication*
