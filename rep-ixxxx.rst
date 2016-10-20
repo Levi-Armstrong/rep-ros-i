@@ -476,7 +476,7 @@ Notes
 #. The value of the ``robot_id`` field shall match that of the numeric identifier of the corresponding motion group on the controller. This field uses zero-based counting. In cases where motion groups are not identified by numeric ids on the controller, drivers shall implement an appropriate mapping (ie: alphabetical sorting of group names, etc).
 #. Refer to `Special Sequence Numbers`_ for valid values for the ``sequence`` field.
 #. Driver authors must abort any motion executing on the controller on receipt of a message with ``sequence`` set to ``STOP_TRAJECTORY``. Note that such messages must also be acknowledged with a reply message.
-#. Servers must abort any motion executing on the controller on receipt of an out-of-order trajectory point (ie: ``(seq(msg_n) - seq(msg_n-1)) != 1``).
+#. Servers must abort any motion executing on the controller on receipt of an out-of-order trajectory point (ie: ``(seq(msg_n) - seq(msg_n-1)) != 1``), except when clients wish to start a new trajectory (ie: ``seq(msg) == 1``).
 #. Refer to `Valid fields`_ for defined bit positions for the ``valid_fields`` field.
 #. Drivers shall set all undefined bit positions in ``valid_fields`` to zero (``0``).
 #. Drivers shall set all elements of invalid fields (as encoded by ``valid_fields``) to zero (``0``).
