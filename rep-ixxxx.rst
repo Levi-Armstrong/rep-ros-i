@@ -14,7 +14,8 @@ Abstract
 ========
 
 This REP documents the Simple Message message structures that are part
-of the *standard set* as defined in REP-I0004, and supported by the
+of the *standard set* as defined in *Assigned Message Identifiers for
+the Simple Message Protocol* [#REP-I0004]_, and supported by the
 generic clients in the ``industrial_robot_client`` package. Both
 syntax and semantics of message structures and fields are described.
 
@@ -87,9 +88,9 @@ servers and to assist developers in implementing new drivers, a
 central registry of defined message identifiers, their structures and
 their semantics is essential.
 
-Identifiers are documented in *REP-I0004 - Assigned Message
-Identifiers for the Simple Message Protocol* [#REP-I0004]_. Message
-structures and their semantics are described in this document.
+Identifiers are documented in *Assigned Message Identifiers for the
+Simple Message Protocol* [#REP-I0004]_. Message structures and their
+semantics are described in this document.
 
 This document provides the normative reference for all messages that
 are part of the *standard set*, and are thus supported by the generic
@@ -251,7 +252,7 @@ Layout::
 
 Notes
 
-#. Refer to [REP-I0004]_ for valid values for the ``msg_type`` field.
+#. Refer to [#REP-I0004]_ for valid values for the ``msg_type`` field.
 #. Refer to `Communication Types`_ for valid values for the ``comm_type``
    field.
 #. Refer to `Reply Codes`_ for valid values for the ``reply_code``
@@ -288,12 +289,10 @@ example in the case of pure acknowledgements that carry no data.
 In cases where fixed-size messages are required, an array of ``shared_int``
 dummy values may be used. All elements must be initialised to zero (``0``).
 
-Layout:
-
-Body layout is message specific. See the definitions in the
+Layout: the layout of the body is message specific. See the definitions in the
 `Message Definitions`_ section for more information.
 
-Notes: none
+Notes: none.
 
 
 Message Definitions
@@ -344,7 +343,8 @@ GET_VERSION
 -----------
 
 Allows clients to determine the specific version of a server implementation
-running on the remote system.
+running on the remote system. This version number may be specific to the
+server, and can not be used to compare different server implementations.
 
 Message type: *synchronous service*
 
