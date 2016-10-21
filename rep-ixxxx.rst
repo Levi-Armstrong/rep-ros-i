@@ -391,9 +391,9 @@ Reply::
 STATUS
 ------
 
-Description.
+The ``STATUS`` message may be used by servers to inform clients of the general status of the controller, including whether the controller is currently in an error state, whether the emergency stop is active, whether any attached robot is executing a motion and what the current operating mode of the controller is.
 
-Also: ``ROBOT_STATUS``. Not for joint states.
+This version of ``STATUS`` can only encode an aggregate state, so drivers for controllers with multiple motion groups will need to determine how to merge group state into an aggregate controller state.
 
 See `Example: STATUS`_ for bytestream example.
 
@@ -434,6 +434,7 @@ Notes
 #. Fields for which a driver cannot determine a value shall be set to ``UNKNOWN``.
 #. The ``error_code`` field should be used to store the integer representation (id, number or code) of the error that caused the robot to go into an error mode.
 #. If the controller can be set to modes other than those defined in ISO 10218-1, drivers shall report ``UNKNOWN`` for those modes.
+#. ``motion_possible`` shall encode whether the controller is in a state that would allow immediate execution of a new incoming trajectory. Industrial robot controllers may expose such information directly (fi, through a dedicated function call, a special variable or some other way). In all other cases driver authors are expected to include appropriate logic in servers that can derive whether motion should be possible (ie: by examining multiple other sources of information).
 
 
 JOINT_TRAJ_PT_FULL
