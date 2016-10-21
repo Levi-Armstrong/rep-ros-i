@@ -82,15 +82,15 @@ Definitions
 ===========
 
 Controller
-    TODO: include this?
+    The device that provides access to the Robot motion control capabilities. It is often the same (computing) device that runs the Server side of a ROS-Industrial (robot) driver. Controllers may be configured with zero or more Motion Groups that can be controlled by (motion) programs running on the controller.
+Motion Group
+    A set of joints in a particular kinematic configuration (a chain fi) that are controlled as a single group, independent from other such groups. In industrial robot controllers, a single motion group typically contains the axes of the attached manipulator and a second group may contain any additional axes.
 Server
     A software component exposing a Simple Message compatible message interface that offers services and datastreams for clients to connect to.
 Client
     A software component implementing a Simple Message compatible message interface that wishes to make use of the services and datastreams offered by clients.
 Trajectory Point
-    TODO: improve description. A single point in a trajectory that encodes a position in space, with associated velocity and acceleration constraints.
-Motion group
-    TODO
+    A single point in a trajectory for a robotic manipulator that encodes a position in joint or Cartesian space, with additional associated constraints (fi: desired velocities, accelerations or efforts).
 
 
 Assumptions
