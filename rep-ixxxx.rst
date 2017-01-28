@@ -199,22 +199,29 @@ Notes
 #. Refer to `Communication Types`_ for valid values for the ``comm_type`` field.
 #. Refer to `Reply Codes`_ for valid values for the ``reply_code`` field.
 #. For ``TOPIC`` and ``SERVICE_REQUEST`` type messages, the ``reply_code`` field must be set to ``INVALID``.
-#. The ``SUCCESS`` and ``FAILURE`` reply codes shall only be used with ``SERVICE_REPLY`` type messages. They are not valid for any other message type.
+#. The ``SUCCESS`` and ``FAILURE`` reply codes shall only be used with ``SERVICE_REPLY`` type messages.
+   They are not valid for any other message type.
 #. The ``TOPIC`` communication type shall only be used when the sender does not need the recipient to acknowledge the message.
 #. Receivers shall ignore (ie: take no action upon receipt) incoming ``TOPIC`` messages they do not support.
-#. Incoming ``SERVICE_REQUEST`` messages requesting use of a service that the receiver does not support shall result in a ``SERVICE_REPLY`` being sent by the receiver with the ``reply_code`` set to ``FAILURE``. No further action shall be taken. TODO: should a 'generic reply' message be defined?
+#. Incoming ``SERVICE_REQUEST`` messages requesting use of a service that the receiver does not support shall result in a ``SERVICE_REPLY`` being sent by the receiver with the ``reply_code`` set to ``FAILURE``.
+   No further action shall be taken. TODO: should a 'generic reply' message be defined?
 #. Implementations shall ignore incoming ``SERVICE_REPLY`` messages for which no outstanding ``SERVICE_REQUEST`` exists.
-#. Implementations shall warn the user of any incoming messages with the ``comm_type`` field set to either invalid or unsupported values. The message itself is then to be ignored.
+#. Implementations shall warn the user of any incoming messages with the ``comm_type`` field set to either invalid or unsupported values.
+   The message itself is then to be ignored.
 
 
 Body
 ----
 
-The *body* is that part of the message which consists of all fields that are not part of either the prefix or the message header. Most message structures described in the `Message Definitions`_ section have a body part, but this is not required. Messages may consist of only a prefix and a header, for example in the case of pure acknowledgements that carry no data.
+The *body* is that part of the message which consists of all fields that are not part of either the prefix or the message header.
+Most message structures described in the `Message Definitions`_ section have a body part, but this is not required.
+Messages may consist of only a prefix and a header, for example in the case of pure acknowledgements that carry no data.
 
-In cases where fixed-size messages are required, an array of ``shared_int`` dummy values may be used. All elements must be initialised to zero (``0``).
+In cases where fixed-size messages are required, an array of ``shared_int`` dummy values may be used.
+All elements must be initialised to zero (``0``).
 
-Layout: the layout of the body is message specific. See the definitions in the `Message Definitions`_ section for more information.
+Layout: the layout of the body is message specific.
+See the definitions in the `Message Definitions`_ section for more information.
 
 Notes: none.
 
@@ -263,7 +270,8 @@ Notes
 GET_VERSION
 -----------
 
-Allows clients to determine the specific version of a server implementation running on the remote system. This version number may be specific to the server, and thus cannot be used to compare different server implementations.
+Allows clients to determine the specific version of a server implementation running on the remote system.
+This version number may be specific to the server, and thus cannot be used to compare different server implementations.
 
 Message type: *synchronous service*
 
@@ -289,15 +297,20 @@ Reply::
 Notes
 
 #. Fields not used by the server shall be set to zero (``0``).
-#. Server implementations may return alphanumeric version info in any of the ``major``, ``minor`` or ``patch`` fields, but this may result in rendering artefacts on the client side. The generic clients in ``industrial_robot_client`` will always interpret these fields as signed integers.
+#. Server implementations may return alphanumeric version info in any of the ``major``, ``minor`` or ``patch`` fields, but this may result in rendering artefacts on the client side.
+The generic clients in ``industrial_robot_client`` will always interpret these fields as signed integers.
 
 
 JOINT_POSITION
 --------------
 
-This message was part of the first set of messages supported by the generic clients that servers could use to report joint states. There is no support for joint velocity, acceleration or effort, nor a group identifier or index. The message size is fixed and the maximum number of joints supported is ten (``10``).
+This message was part of the first set of messages supported by the generic clients that servers could use to report joint states.
+There is no support for joint velocity, acceleration or effort, nor a group identifier or index.
+The message size is fixed and the maximum number of joints supported is ten (``10``).
 
-Early server implementations also accepted this message for enqueuing trajectory points. This usage has been deprecated (and support removed from ``industrial_robot_client``) and it is an error for clients to try to use ``JOINT_POSITION`` for this purpose. Driver authors may use `JOINT_TRAJ_PT`_ and `JOINT_TRAJ_PT_FULL`_ messages instead.
+Early server implementations also accepted this message for enqueuing trajectory points.
+This usage has been deprecated (and support removed from ``industrial_robot_client``) and it is an error for clients to try to use ``JOINT_POSITION`` for this purpose.
+Driver authors may use `JOINT_TRAJ_PT`_ and `JOINT_TRAJ_PT_FULL`_ messages instead.
 
 Note that this message is currently deprecated, and new server implementations are recommended to use `JOINT_FEEDBACK`_ (TODO: but the IRC doesn't support it).
 
@@ -325,7 +338,8 @@ Notes
 #. Elements of ``joint_data`` that are not used must be initialised to zero (``0``) by the sender.
 #. The size of the ``joint_data`` array is ``10``, even if the server implementation does not need that many elements (for instance because it only has six joints).
 #. Controllers that support or are configured with more than a single motion group should use the `JOINT_FEEDBACK`_ message if they wish to report joint state for all configured motion groups (TODO: but that message is currently not supported by the IRC).
-#. The elements of the ``joint_data`` field shall represent the joint space positions of the corresponding joint axes of the controller. In accordance with [#REP103]_, units are *radians* for revolute or rotational axes, and *meters* for prismatic or translational axes.
+#. The elements of the ``joint_data`` field shall represent the joint space positions of the corresponding joint axes of the controller.
+   In accordance with [#REP103]_, units are *radians* for revolute or rotational axes, and *meters* for prismatic or translational axes.
 
 
 JOINT_TRAJ_PT
@@ -360,16 +374,25 @@ Reply::
 
 Notes
 
-#. Drivers shall set the value of the ``reply_code`` field in the ``Header`` of the reply messages to *the result of the enqueueing operation* of the trajectory point that was transmitted in the request. It is *not* to be used to report the success or failure of the *execution* of the motion. Drivers may use the appropriate fields in `STATUS`_ for that.
-#. TODO: the IRC is not setup to support this currently. Also: does this only hold for drivers that use a trajectory buffering approach? What about direct streaming?
+#. Drivers shall set the value of the ``reply_code`` field in the ``Header`` of the reply messages to *the result of the enqueueing operation* of the trajectory point that was transmitted in the request.
+   It is *not* to be used to report the success or failure of the *execution* of the motion.
+   Drivers may use the appropriate fields in `STATUS`_ for that.
+#. TODO: the IRC is not setup to support this currently.
+   Also: does this only hold for drivers that use a trajectory buffering approach?
+   What about direct streaming?
 #. Refer to `Special Sequence Numbers`_ for valid values for the ``sequence`` field.
-#. Driver authors must abort any motion executing on the controller on receipt of a message with ``sequence`` set to ``STOP_TRAJECTORY``. Note that such messages must also be acknowledged with a reply message.
+#. Driver authors must abort any motion executing on the controller on receipt of a message with ``sequence`` set to ``STOP_TRAJECTORY``.
+   Note that such messages must also be acknowledged with a reply message.
 #. Servers must abort any motion executing on the controller on receipt of an out-of-order trajectory point (ie: ``(seq(msg_n) - seq(msg_n-1)) != 1``), except when clients wish to start a new trajectory (ie: ``seq(msg) == 1``).
 #. Elements of ``joint_data`` that are not used must be initialised to zero (``0``) by the sender.
 #. The size of the ``joint_data`` array is ``10``, even if the server implementation does not need that many elements (for instance because it only has six joints).
 #. Controllers that support or are configured with more than a single motion group should use the `JOINT_TRAJ_PT_FULL`_ message if they wish to relay trajectories for all configured motion groups.
-#. The elements of the ``joint_data`` field shall represent the joint space positions of the corresponding joint axes of the controller. Units are *radians* for rotational or revolute axes, and *meters* for translational or prismatic axes (see also [#REP103]_).
-#. The ``duration`` field represents total segment duration for all joints in seconds [#REP103]_. The generic nodes calculate this duration based on the time needed by the slowest joint to complete the segment. As an alternative to the ``duration`` field, the value of the ``velocity`` field is a value representing the fraction ``(0.0, 1.0]`` of maximum joint velocity that should be used when executing the motion for the current segment. Driver authors may use whichever value is more conveniently mapped onto motion primitives supported by the controller.
+#. The elements of the ``joint_data`` field shall represent the joint space positions of the corresponding joint axes of the controller.
+   Units are *radians* for rotational or revolute axes, and *meters* for translational or prismatic axes (see also [#REP103]_).
+#. The ``duration`` field represents total segment duration for all joints in seconds [#REP103]_.
+   The generic nodes calculate this duration based on the time needed by the slowest joint to complete the segment.
+   As an alternative to the ``duration`` field, the value of the ``velocity`` field is a value representing the fraction ``(0.0, 1.0]`` of maximum joint velocity that should be used when executing the motion for the current segment.
+   Driver authors may use whichever value is more conveniently mapped onto motion primitives supported by the controller.
 #. TODO: problem with 'velocity': is that max velocity over segment, average velocity, or does it encode desired state of manipulator at a specific point in time?
 
 
@@ -440,17 +463,21 @@ All other values are reserved for future use.
 
 Notes
 
-#. The fields ``drives_powered``, ``e_stopped``, ``in_error``, ``in_motion`` and ``motion_possible`` are tri-states. Refer to `Tri-states`_ for valid values for these fields.
+#. The fields ``drives_powered``, ``e_stopped``, ``in_error``, ``in_motion`` and ``motion_possible`` are tri-states.
+   Refer to `Tri-states`_ for valid values for these fields.
 #. Fields for which a driver cannot determine a value shall be set to ``UNKNOWN``.
 #. The ``error_code`` field should be used to store the integer representation (id, number or code) of the error that caused the robot to go into an error mode.
 #. If the controller can be set to modes other than those defined in ISO 10218-1, drivers shall report ``UNKNOWN`` for those modes.
-#. ``motion_possible`` shall encode whether the controller is in a state that would allow immediate execution of a new incoming trajectory. Industrial robot controllers may expose such information directly (fi, through a dedicated function call, a special variable or some other way). In all other cases driver authors are expected to include appropriate logic in servers that can derive whether motion should be possible (ie: by examining multiple other sources of information).
+#. ``motion_possible`` shall encode whether the controller is in a state that would allow immediate execution of a new incoming trajectory.
+   Industrial robot controllers may expose such information directly (fi, through a dedicated function call, a special variable or some other way).
+   In all other cases driver authors are expected to include appropriate logic in servers that can derive whether motion should be possible (ie: by examining multiple other sources of information).
 
 
 JOINT_TRAJ_PT_FULL
 ------------------
 
-Meant to be an almost 1-to-1 copy of the ROS ``JointTrajectoryPoint`` message type. But without the ``names`` field (we rely on indices, which the IRC should know how to map to names, and vice-versa).
+Meant to be an almost 1-to-1 copy of the ROS ``JointTrajectoryPoint`` message type.
+But without the ``names`` field (we rely on indices, which the IRC should know how to map to names, and vice-versa).
 
 TODO: extend.
 
@@ -482,11 +509,18 @@ Reply::
 
 Notes
 
-#. Drivers shall set the value of the ``reply_code`` field in the ``Header`` of the reply messages to the result of the *enqueueing operation* of the trajectory point that was transmitted in the request. It is *not* to be used to report the success or failure of the *execution* of the motion. Drivers may use the appropriate fields in `STATUS`_ for that.
-#. TODO: the IRC is not setup to support this currently. Also: does this only hold for drivers that use a trajectory buffering approach? What about direct streaming?
-#. The value of the ``robot_id`` field shall match that of the numeric identifier of the corresponding motion group on the controller. This field uses zero-based counting. In cases where motion groups are not identified by numeric ids on the controller, drivers shall implement an appropriate mapping (ie: alphabetical sorting of group names, etc).
+#. Drivers shall set the value of the ``reply_code`` field in the ``Header`` of the reply messages to the result of the *enqueueing operation* of the trajectory point that was transmitted in the request.
+   It is *not* to be used to report the success or failure of the *execution* of the motion.
+   Drivers may use the appropriate fields in `STATUS`_ for that.
+#. TODO: the IRC is not setup to support this currently.
+   Also: does this only hold for drivers that use a trajectory buffering approach?
+   What about direct streaming?
+#. The value of the ``robot_id`` field shall match that of the numeric identifier of the corresponding motion group on the controller.
+   This field uses zero-based counting.
+   In cases where motion groups are not identified by numeric ids on the controller, drivers shall implement an appropriate mapping (ie: alphabetical sorting of group names, etc).
 #. Refer to `Special Sequence Numbers`_ for valid values for the ``sequence`` field.
-#. Driver authors must abort any motion executing on the controller on receipt of a message with ``sequence`` set to ``STOP_TRAJECTORY``. Note that such messages must also be acknowledged with a reply message.
+#. Driver authors must abort any motion executing on the controller on receipt of a message with ``sequence`` set to ``STOP_TRAJECTORY``.
+   Note that such messages must also be acknowledged with a reply message.
 #. Servers must abort any motion executing on the controller on receipt of an out-of-order trajectory point (ie: ``(seq(msg_n) - seq(msg_n-1)) != 1``), except when clients wish to start a new trajectory (ie: ``seq(msg) == 1``).
 #. Refer to `Valid fields`_ for defined bit positions for the ``valid_fields`` field.
 #. Drivers shall set all undefined bit positions in ``valid_fields`` to zero (``0``).
@@ -524,7 +558,8 @@ Message::
 Notes
 
 #. Refer to `Special Sequence Numbers`_ for valid values for the ``sequence`` field.
-#. The value of the ``robot_id`` field shall match that of the numeric identifier of the corresponding motion group on the controller. This field uses zero-based counting. In cases where motion groups are not identified by numeric ids on the controller, drivers shall implement an appropriate mapping (ie: alphabetical sorting of group names, etc).
+#. The value of the ``robot_id`` field shall match that of the numeric identifier of the corresponding motion group on the controller.
+   This field uses zero-based counting. In cases where motion groups are not identified by numeric ids on the controller, drivers shall implement an appropriate mapping (ie: alphabetical sorting of group names, etc).
 #. Refer to `Valid fields`_ for defined bit positions for the ``valid_fields`` field.
 #. Drivers shall set all undefined bit positions in ``valid_fields`` to zero (``0``).
 #. Drivers shall set all elements of invalid fields (as encoded by ``valid_fields``) to zero (``0``).
@@ -536,7 +571,8 @@ Notes
 Defined Constants
 =================
 
-This section documents all shared constants as defined in the Simple Message protocol. Constants defined in this section are recognised by the generic nodes in the ``industrial_robot_client`` package and shall be used by compliant drivers.
+This section documents all shared constants as defined in the Simple Message protocol.
+Constants defined in this section are recognised by the generic nodes in the ``industrial_robot_client`` package and shall be used by compliant drivers.
 
 
 Communication Types
@@ -678,7 +714,8 @@ Direction: server → client
 Example: JOINT_TRAJ_PT
 ----------------------
 
-The following is a bytestream for a serialised ``JOINT_TRAJ_PT`` sent be a client to a server to request the second trajectory point in a trajectory be queued for execution by the controller. This is for a six-axis robot.
+The following is a bytestream for a serialised ``JOINT_TRAJ_PT`` sent be a client to a server to request the second trajectory point in a trajectory be queued for execution by the controller.
+This is for a six-axis robot.
 
 Direction: client → server
 
@@ -713,7 +750,8 @@ Direction: client → server
 Example: STATUS
 ---------------
 
-This is a bytestream encoding a ``STATUS`` message for a six-axis robot that is in auto-mode, not moving, not in an error mode, of which the servo drives are powered and is ready to execute a new trajectory. Note that the state of the e-stop could not be determined by the driver, and is thus reported as ``UNKNOWN``.
+This is a bytestream encoding a ``STATUS`` message for a six-axis robot that is in auto-mode, not moving, not in an error mode, of which the servo drives are powered and is ready to execute a new trajectory.
+Note that the state of the e-stop could not be determined by the driver, and is thus reported as ``UNKNOWN``.
 
 Direction: server → client
 
