@@ -73,18 +73,23 @@ Motivation
 ==========
 
 Like other network protocols, the ROS-Industrial Simple Message protocol [#simple_message]_ defines a set of message structures to allow senders and receivers to exchange information in a structured and consistent way. In order to be able to provide generic implementations of the Simple Message protocol (de)serialisation libraries, to avoid potential incompatibility between clients and servers and to assist developers in implementing new drivers, a central registry of defined message identifiers, their structures and their semantics is essential. 
-Identifiers are documented in *Assigned Message Identifiers for the Simple Message Protocol* [#REP-I0004]_. Message structures and their semantics are described in this document.
+Identifiers are documented in *Assigned Message Identifiers for the Simple Message Protocol* [#REP-I0004]_.
+Message structures and their semantics are described in this document.
 
-This document provides the normative reference for all messages that are part of the *standard set*, and are thus supported by the generic clients in the ``industrial_robot_client`` package. Vendor specific and messages in any of the *freely assignable* ranges are not included in this document.
+This document provides the normative reference for all messages that are part of the *standard set*, and are thus supported by the generic clients in the ``industrial_robot_client`` package.
+Vendor specific and messages in any of the *freely assignable* ranges are not included in this document.
 
 
 Definitions
 ===========
 
 Controller
-    The device that provides access to the Robot motion control capabilities. It is often the same (computing) device that runs the Server side of a ROS-Industrial (robot) driver. Controllers may be configured with zero or more Motion Groups that can be controlled by (motion) programs running on the controller.
+    The device that provides access to the Robot motion control capabilities.
+    It is often the same (computing) device that runs the Server side of a ROS-Industrial (robot) driver.
+    Controllers may be configured with zero or more Motion Groups that can be controlled by (motion) programs running on the controller.
 Motion Group
-    A set of joints in a particular kinematic configuration (a chain fi) that are controlled as a single group, independent from other such groups. In industrial robot controllers, a single motion group typically contains the axes of the attached manipulator and a second group may contain any additional axes.
+    A set of joints in a particular kinematic configuration (a chain fi) that are controlled as a single group, independent from other such groups.
+    In industrial robot controllers, a single motion group typically contains the axes of the attached manipulator and a second group may contain any additional axes.
 Server
     A software component exposing a Simple Message compatible message interface that offers services and datastreams for clients to connect to.
 Client
