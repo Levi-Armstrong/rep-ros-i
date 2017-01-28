@@ -113,10 +113,13 @@ Overview
 
 Requirements and constraints that influenced its design were:
 
-#. Format should be simple enough that code can be shared between ROS and the controller (for those controllers that support C/C++). For those controllers that do not support C/C++, the protocol must be simple enough to be decoded with the limited capabilities of the typical robot programming language. A corollary to this requirement is that the protocol should not be so onerous as to overwhelm the limited resources of the robot controller.
+#. Format should be simple enough that code can be shared between ROS and the controller (for those controllers that support C/C++).
+   For those controllers that do not support C/C++, the protocol must be simple enough to be decoded with the limited capabilities of the typical robot programming language.
+   A corollary to this requirement is that the protocol should not be so onerous as to overwhelm the limited resources of the robot controller.
 #. Format should allow for data streaming (ROS *topic like*).
 #. Format should allow for data reply (ROS *service like*).
-#. The protocol is not intended to encapsulate version information. It is up to individual developers to ensure that code developed for communicating platforms does not have any version conflicts (this includes message type identifiers).
+#. The protocol is not intended to encapsulate version information.
+   It is up to individual developers to ensure that code developed for communicating platforms does not have any version conflicts (this includes message type identifiers).
 
 TODO: extend.
 
@@ -165,7 +168,8 @@ The following sections describe the different sub structures that make up a vali
 Prefix
 ------
 
-All messages must start with the *prefix*, which may only contain a single field: ``length``. Message length is defined as the sum in bytes of the sizes of the individual fields in the *header* and the *body*, excluding the ``length`` field itself (ie: only actual message bytes are considered).
+All messages must start with the *prefix*, which may only contain a single field: ``length``.
+Message length is defined as the sum in bytes of the sizes of the individual fields in the *header* and the *body*, excluding the ``length`` field itself (ie: only actual message bytes are considered).
 
 Layout::
 
@@ -174,7 +178,8 @@ Layout::
 Notes
 
 #. Refer to section `Shared Types`_ for information on the size of supported field types.
-#. The size of fields that are arrays or lists shall be defined as the size of their base type (ie: ``shared_int``) multiplied by the number of elements in the list, or the declared size of the array. Example: an array of ``shared_int`` with ten (``10``) elements in it has a total size of fourty (``40``) bytes.
+#. The size of fields that are arrays or lists shall be defined as the size of their base type (ie: ``shared_int``) multiplied by the number of elements in the list, or the declared size of the array.
+   Example: an array of ``shared_int`` with ten (``10``) elements in it has a total size of fourty (``40``) bytes.
 
 
 Header
