@@ -393,6 +393,7 @@ Notes
    The generic nodes calculate this duration based on the time needed by the slowest joint to complete the segment.
    As an alternative to the ``duration`` field, the value of the ``velocity`` field is a value representing the fraction ``(0.0, 1.0]`` of maximum joint velocity that should be used when executing the motion for the current segment.
    Driver authors may use whichever value is more conveniently mapped onto motion primitives supported by the controller.
+#. Durations or velocities that are outside bounds set by the controller shall result in an error being returned by the server.
 #. TODO: problem with 'velocity': is that max velocity over segment, average velocity, or does it encode desired state of manipulator at a specific point in time?
 
 
