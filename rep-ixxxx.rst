@@ -110,7 +110,7 @@ Names in namespaced contexts
 
 In contexts where the name of the manufacturer is already part of the fully qualified path to an artefact, such a prefix may not be added again to the name of said artefact.
 
-An example of this would be ``rospack`` commands (such as xacro ``find``) and ``package://`` URIs to artefacts within ROS-Industrial robot support packages: in accordance with [#rep144]_, such packages already include the name of the manufacturer as a prefix, making the same prefix on files in such packages superfluous.
+Examples of this would be ``rospack`` commands (such as xacro ``find``) and ``package://`` URIs to artefacts within ROS-Industrial robot support packages: in accordance with [#rep144]_, such packages already include the name of the manufacturer as a prefix, making the same prefix on files in such packages superfluous.
 
 Automatically generated artefacts (such as those in MoveIt! packages) are exempt from this rule.
 
